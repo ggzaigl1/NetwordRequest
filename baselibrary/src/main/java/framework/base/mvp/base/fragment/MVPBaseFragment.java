@@ -1,0 +1,65 @@
+package framework.base.mvp.base.fragment;
+
+
+import androidx.appcompat.app.AlertDialog;
+
+import framework.base.fragment.LoadingBaseFragment;
+import framework.base.module.exception.NetErrorException;
+import framework.base.mvp.presenter.BasePresenter;
+import framework.base.mvp.view.BaseView;
+
+/**
+ * Mvp Base Fragment
+ *
+ * @param <P>
+ */
+abstract public class MVPBaseFragment<P extends BasePresenter> extends LoadingBaseFragment
+        implements BaseView {
+
+    private P mPresenter;
+
+    /**
+     * 底层获取P
+     *
+     * @return P
+     */
+    protected synchronized P getP() {
+        if (mPresenter == null) {
+            mPresenter = createPresenter();
+        }
+        return mPresenter;
+    }
+
+
+    /**
+     * 创建Presenter
+     *
+     * @return 返回Presenter的实例
+     */
+    protected abstract P createPresenter();
+
+    @Override
+    public void onComplete() {
+        // 请求完成、关闭dialog
+        dismissDialog();
+    }
+
+    @Override
+    public void onDialogCancelListener(AlertDialog dialog) {
+        super.onDialogCancelListener(dialog);
+        // dialog取消，取消订阅
+        getP().unDisposable();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 销毁 取消订阅
+        getP().unDisposable();
+    }
+
+    @Override
+    public void onFailure(NetErrorException exception) {
+        showWarningDialog(exception.getMessage());
+    }
+}

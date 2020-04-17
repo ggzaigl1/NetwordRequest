@@ -1,0 +1,3 @@
+rootProject.name='NetwordRequest'
+include ':app'
+include ':baselibrary'
