@@ -23,16 +23,15 @@ public class DES3GsonConverterFactory extends Converter.Factory{
     }
 
     public static DES3GsonConverterFactory create(Gson gson) {
-        if (gson == null) throw new NullPointerException("gson == null");
         return new DES3GsonConverterFactory(gson);
     }
 
     private final Gson gson;
 
     private DES3GsonConverterFactory(Gson gson) {
-//        if (gson == null) {
-//            throw new NullPointerException("gson == null");
-//        }
+        if (gson == null) {
+            throw new NullPointerException("gson == null");
+        }
         this.gson = gson;
     }
 

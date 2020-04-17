@@ -71,8 +71,6 @@ public class BaseApi {
      **/
     private static BaseApi instance;
 
-    private ApiServiceUrl mApiServiceUrl = null;
-
     private BaseApi() {
         mRetrofit = null;
         mClient = null;
@@ -224,6 +222,7 @@ public class BaseApi {
      */
     private OkHttpClient getHttpClient() {
         if (mClient == null) {
+
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
             //创建日志拦截器
@@ -234,21 +233,20 @@ public class BaseApi {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//设定日志级别
 
-            builder.connectTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                    .readTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                    .writeTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new NetCacheInterceptor())
+            builder.addNetworkInterceptor(new NetCacheInterceptor())
                     .addInterceptor(new OfflineCacheInterceptor())
                     .cache(cache)
-                    .cache(cache)
+                    .connectTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                    .readTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                    .writeTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                     .protocols(Collections.singletonList(Protocol.HTTP_1_1));
 
             // 连接超时时间
-            builder.connectTimeout(mConfig.configConnectTimeoutMills()
-                    != 0 ? mConfig.configConnectTimeoutMills() : DEFAULT_CONNECT_TIMEOUT_MILLS, TimeUnit.MILLISECONDS);
-            // 读取超时时间
-            builder.readTimeout(mConfig.configReadTimeoutMills()
-                    != 0 ? mConfig.configReadTimeoutMills() : DEFAULT_READ_TIMEOUT_MILLS, TimeUnit.MILLISECONDS);
+//            builder.connectTimeout(mConfig.configConnectTimeoutMills()
+//                    != 0 ? mConfig.configConnectTimeoutMills() : DEFAULT_CONNECT_TIMEOUT_MILLS, TimeUnit.MILLISECONDS);
+//            // 读取超时时间
+//            builder.readTimeout(mConfig.configReadTimeoutMills()
+//                    != 0 ? mConfig.configReadTimeoutMills() : DEFAULT_READ_TIMEOUT_MILLS, TimeUnit.MILLISECONDS);
 
             // 拦截器
             Interceptor[] interceptors = mConfig.configInterceptors();

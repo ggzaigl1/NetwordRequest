@@ -33,19 +33,6 @@ public class ChaptersPresenter extends ChaptersContract.Presenter {
         // 取消上次请求
         unDisposable();
         // 开始请求
-//        mDisposable = ApiGithub.getInstance()
-//                .gitHubService()
-//                .getChapters()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(new ApiSubscriber<List<ChaptersBean>>() {
-//                    @Override
-//                    public void onNext(List<ChaptersBean> chaptersBeans) {
-//                        Log.e(TAG, "onNext: " + chaptersBeans);
-//                        view.getReportSuccess(chaptersBeans);
-//                    }
-//                });
-
         mDisposable = ServiceBuild
                 .getUserService()
                 .getChapters()
