@@ -21,8 +21,6 @@ import java.util.List;
  */
 public class ChaptersPresenter extends ChaptersContract.Presenter {
 
-    private static final String TAG = "ChaptersPresenter";
-
     public ChaptersPresenter(ChaptersContract.View view) {
         super(view);
     }

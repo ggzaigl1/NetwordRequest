@@ -27,15 +27,13 @@ import framework.base.utlis.data.IntentUtils;
 /**
  * 最基本的Activity
  * -------------------------------
- * v0.1 2018年10月04日11:44:26
  * ①showToast
  * ②startActivity
  * ③跳转动画
  * ④initToolbar
  * -------------------------------
- *
+ * <p>
  * -------------------------------
- * v0.2 2019年05月20日10:24:16
  * ①增加了统一ToolBar的封装
  * ②适配了异形屏，全面沉浸
  * -------------------------------
@@ -45,6 +43,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected Activity mActivity;
     protected Toolbar mToolBar;
     protected Unbinder mUnbinder;
+    public static final String TAG = BaseActivity.class.getSimpleName();
 
     /**
      * 是否初始化了toolbar
@@ -52,6 +51,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     private boolean isInitToolbar = false;
 
     public abstract int getContentViewResId();
+
     public abstract void initView(@Nullable Bundle savedInstanceState);
 
     @Override
@@ -138,6 +138,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     /**
      * 返回按钮
      * 子类通过覆写本方法返回需要设置的返回按钮，也可以直接在xml中直接赋值
+     *
      * @return
      */
     protected int getNavigationIcon() {

@@ -25,7 +25,6 @@ import framework.base.mvp.base.activity.MVPBaseActivity;
 public class ChaptersActivity extends MVPBaseActivity<ChaptersPresenter> implements ChaptersContract.View, View.OnClickListener {
 
 
-    private static final String TAG = "ChaptersActivity";
     private ChaptersPresenter mChaptersPresenter;
     private OfficialAccountAdapter mAdapter;
 

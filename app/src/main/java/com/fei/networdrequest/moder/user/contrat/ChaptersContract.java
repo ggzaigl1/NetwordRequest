@@ -19,6 +19,7 @@ public interface ChaptersContract {
     }
 
     abstract class Presenter extends BasePresenter {
+
         /**
          * 持有View层
          */

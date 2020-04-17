@@ -8,6 +8,7 @@ import com.trello.rxlifecycle2.components.RxFragment;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
+import framework.base.activity.BaseActivity;
 import framework.base.mvp.view.BaseView;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
@@ -19,6 +20,8 @@ import io.reactivex.schedulers.Schedulers;
  * 基类Presenter，做统一的处理
  */
 public abstract class BasePresenter {
+
+    public static final String TAG = BaseActivity.class.getSimpleName();
 
     private BaseView mView;
 

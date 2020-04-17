@@ -26,7 +26,6 @@ import framework.base.utlis.T;
 
 public class LoginActivity extends MVPBaseActivity<LoginPresenter> implements LoginContract.View, View.OnClickListener {
 
-    private static final String TAG = "LoginActivity";
     private LoginPresenter mLoginPresenter;
     private TextView mTextView;
 
@@ -48,7 +47,7 @@ public class LoginActivity extends MVPBaseActivity<LoginPresenter> implements Lo
     @SuppressLint("SetTextI18n")
     @Override
     public void loginSuccess(LoginBean loginBean) {
-        Toast.makeText(this, "登陆成功：" + loginBean.toString(), Toast.LENGTH_SHORT).show();
+        T.showToast(this, "登录成功" + loginBean.toString());
         mTextView.setText(loginBean.getNickname() + loginBean.getId());
         L.e("登陆成功：" + loginBean.toString());
 
@@ -56,7 +55,7 @@ public class LoginActivity extends MVPBaseActivity<LoginPresenter> implements Lo
 
     @Override
     public void loginFailure(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        T.showToast(this, message);
         L.e("登陆失敗：" + message);
     }
 

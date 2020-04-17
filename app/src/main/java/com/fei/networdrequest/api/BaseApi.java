@@ -235,6 +235,7 @@ public class BaseApi {
 
             builder.addNetworkInterceptor(new NetCacheInterceptor())
                     .addInterceptor(new OfflineCacheInterceptor())
+                    .addInterceptor(getHeader())
                     .cache(cache)
                     .connectTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                     .readTimeout(Constant.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
@@ -255,6 +256,7 @@ public class BaseApi {
                     builder.addInterceptor(interceptor);
                 }
             }
+
             if (mConfig.configLogEnable()) {//配置打印
                 HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
                 logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -266,7 +268,7 @@ public class BaseApi {
         return mClient;
     }
 
-    protected Interceptor getHeader() {
+    private Interceptor getHeader() {
         return new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -287,13 +289,13 @@ public class BaseApi {
 
                 //从request中获取headers，通过给定的键url_name
                 List<String> headerValues = request.headers("url_name");
-                if (headerValues != null && headerValues.size() > 0) {
+                if (headerValues.size() > 0) {
                     //如果有这个header，先将配置的header删除，因为 此header仅用作app和okhttp之间使用
                     builder.removeHeader("url_name");
 
                     //匹配获得新的BaseUrl
                     String headerValue = headerValues.get(0);
-                    HttpUrl newBaseUrl = null;
+                    HttpUrl newBaseUrl;
                     if ("user".equals(headerValue) && !TextUtils.isEmpty(Constant.custom_Url)) {
                         newBaseUrl = HttpUrl.parse(Constant.custom_Url);
                         //从request中获取原有的HttpUrl实例oldHttpUrl
@@ -314,11 +316,9 @@ public class BaseApi {
 
                 if (null == response) {
                     Request.Builder requestBuilder = request.newBuilder();
-
                     Request newRequest = requestBuilder.build();
                     response = chain.proceed(newRequest);
                 }
-
                 return response;
             }
         };
