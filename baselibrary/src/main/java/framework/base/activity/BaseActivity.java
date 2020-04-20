@@ -2,10 +2,7 @@ package framework.base.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,8 +18,6 @@ import butterknife.Unbinder;
 import framework.base.swipebacklayout.SwipeBackLayout;
 import framework.base.swipebacklayout.app.SwipeBackActivity;
 import framework.base.utlis.T;
-import framework.base.utlis.anim.ActivityAnimUtils;
-import framework.base.utlis.data.IntentUtils;
 
 /**
  * 最基本的Activity
@@ -116,20 +111,18 @@ public abstract class BaseActivity extends SwipeBackActivity {
         // 状态栏高度 getStatusBarHeight只是一个获取高度的方法
         int statusBarHeight = getStatusBarHeight(mActivity);
         //大于 19  设置沉浸和padding
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (mAppBarLayout != null) {
-                ViewGroup.MarginLayoutParams appbarLayoutParam = (ViewGroup.MarginLayoutParams) mAppBarLayout.getLayoutParams();
-                // 更改高度 toolbar_height 的高度是可配置的
-                appbarLayoutParam.height = (int) (getResources().getDimension(R.dimen.toolbar_height) + statusBarHeight);
-                // 设置padding
-                mAppBarLayout.setPadding(mAppBarLayout.getPaddingLeft(),
-                        statusBarHeight,
-                        mAppBarLayout.getPaddingRight(),
-                        mAppBarLayout.getPaddingBottom());
+        if (mAppBarLayout != null) {
+            ViewGroup.MarginLayoutParams appbarLayoutParam = (ViewGroup.MarginLayoutParams) mAppBarLayout.getLayoutParams();
+            // 更改高度 toolbar_height 的高度是可配置的
+            appbarLayoutParam.height = (int) (getResources().getDimension(R.dimen.toolbar_height) + statusBarHeight);
+            // 设置padding
+            mAppBarLayout.setPadding(mAppBarLayout.getPaddingLeft(),
+                    statusBarHeight,
+                    mAppBarLayout.getPaddingRight(),
+                    mAppBarLayout.getPaddingBottom());
 
-                //重新设置回去
-                mAppBarLayout.setLayoutParams(appbarLayoutParam);
-            }
+            //重新设置回去
+            mAppBarLayout.setLayoutParams(appbarLayoutParam);
         }
         // 设置沉浸和状态栏的颜色为透明
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
@@ -163,7 +156,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
      */
     protected void onNavigationOnClickListener() {
         finish();
-        slideLeftOut();
     }
 
 
@@ -186,30 +178,14 @@ public abstract class BaseActivity extends SwipeBackActivity {
     }
 
 
-    /**
-     * 右边划出
-     */
-    protected void slideLeftOut() {
-        ActivityAnimUtils.out(mActivity);
-    }
-
-    /**
-     * 进入
-     */
-    protected void slideRightIn() {
-        ActivityAnimUtils.to(mActivity);
-    }
-
     @Override
     public void finish() {
         super.finish();
-        slideLeftOut();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        slideLeftOut();
     }
 
     private void initSwipeActivity() {
@@ -217,56 +193,36 @@ public abstract class BaseActivity extends SwipeBackActivity {
     }
 
     /**
-     * 打开 Activity
-     *
-     * @param activity
+     * 保证同一按钮在1秒内只会响应一次点击事件
      */
-    protected void launchActivity(Class<? extends Activity> activity) {
-        startActivity(new Intent(mActivity, activity));
-        // 加上动画
-        slideRightIn();
+    public abstract class OnSingleClickListener implements View.OnClickListener {
+        //两次点击按钮之间的间隔，目前为1000ms
+        private static final int MIN_CLICK_DELAY_TIME = 1000;
+        private long lastClickTime;
+
+        abstract void onSingleClick(View view);
+
+        @Override
+        public void onClick(View view) {
+            long curClickTime = System.currentTimeMillis();
+            if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+                lastClickTime = curClickTime;
+                onSingleClick(view);
+            }
+        }
     }
+
 
     /**
-     * 打开 Activity
-     *
-     * @param activity
+     * 同一按钮在短时间内可重复响应点击事件
      */
-    protected void launchActivityForResult(Class<? extends Activity> activity, int requestCode) {
-        startActivityForResult(new Intent(mActivity, activity), requestCode);
-        // 加上动画
-        slideRightIn();
+    public abstract class OnMultiClickListener implements View.OnClickListener {
+
+        abstract void onMultiClick(View view);
+
+        @Override
+        public void onClick(View v) {
+            onMultiClick(v);
+        }
     }
-
-    /**
-     * 打开新的 Activity
-     *
-     * @param activity 目标Activity
-     * @param pairs    键值对
-     */
-    protected void launchActivity(Class<? extends Activity> activity, Pair<String, Object>... pairs) {
-        Intent intent = new Intent(mActivity, activity);
-        // 填充数据
-        IntentUtils.fillIntent(intent, pairs);
-        startActivity(intent);
-        // 加上动画
-        slideRightIn();
-    }
-
-    /**
-     * 打开新的 Activity
-     *
-     * @param activity 目标Activity
-     * @param pairs    键值对
-     */
-    protected void launchActivityForResult(Class<? extends Activity> activity, int requestCode, Pair<String, Object>... pairs) {
-        Intent intent = new Intent(mActivity, activity);
-        // 填充数据
-        IntentUtils.fillIntent(intent, pairs);
-        startActivityForResult(intent, requestCode);
-        // 加上动画
-        slideRightIn();
-    }
-
-
 }

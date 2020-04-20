@@ -24,7 +24,6 @@ import framework.base.mvp.base.activity.MVPBaseActivity;
 
 public class ChaptersActivity extends MVPBaseActivity<ChaptersPresenter> implements ChaptersContract.View, View.OnClickListener {
 
-
     private ChaptersPresenter mChaptersPresenter;
     private OfficialAccountAdapter mAdapter;
 
@@ -40,8 +39,9 @@ public class ChaptersActivity extends MVPBaseActivity<ChaptersPresenter> impleme
     public void initView(@Nullable Bundle savedInstanceState) {
         mChaptersPresenter = new ChaptersPresenter(this);
 
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new OfficialAccountAdapter(new ArrayList<ChaptersBean>());
+        mAdapter = new OfficialAccountAdapter(new ArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
         getPresenter().chapters();
         initEvent();
@@ -49,6 +49,7 @@ public class ChaptersActivity extends MVPBaseActivity<ChaptersPresenter> impleme
 
     private void initEvent() {
     }
+
 
     @OnClick({R.id.mSendRequestBtn})
     @Override
