@@ -1,12 +1,14 @@
 package com.fei.networdrequest.api;
 
 import com.fei.networdrequest.bean.ChaptersBean;
+import com.fei.networdrequest.bean.GanBean;
 import com.fei.networdrequest.bean.LoginBean;
 
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -35,6 +37,9 @@ public interface ApiServiceUrl {
 
     @GET("wxarticle/chapters/json")
     Flowable<List<ChaptersBean>> getChapters();
+
+    @GET("https://gank.io/api/v2/data/category/Girl/type/Girl/page/{count}/count/{page}")
+    Flowable<List<GanBean.DataBean>> getCourseDetails(@Path("count") int count, @Path("page") int page);
 
     /**
      * 获取公众号列表

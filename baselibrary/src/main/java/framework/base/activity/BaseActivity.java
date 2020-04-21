@@ -13,6 +13,8 @@ import com.fei.baselibrary.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 
+import java.io.File;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import framework.base.swipebacklayout.SwipeBackLayout;
@@ -39,6 +41,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected Toolbar mToolBar;
     protected Unbinder mUnbinder;
     public static final String TAG = BaseActivity.class.getSimpleName();
+
 
     /**
      * 是否初始化了toolbar

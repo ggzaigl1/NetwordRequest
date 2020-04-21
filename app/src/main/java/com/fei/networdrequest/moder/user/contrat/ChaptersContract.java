@@ -1,6 +1,7 @@
 package com.fei.networdrequest.moder.user.contrat;
 
 import com.fei.networdrequest.bean.ChaptersBean;
+import com.fei.networdrequest.bean.GanBean;
 
 import java.util.List;
 

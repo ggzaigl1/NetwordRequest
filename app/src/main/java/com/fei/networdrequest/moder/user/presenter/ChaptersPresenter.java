@@ -3,18 +3,14 @@ package com.fei.networdrequest.moder.user.presenter;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.fei.networdrequest.api.ApiGithub;
-
 import com.fei.networdrequest.api.ServiceBuild;
 import com.fei.networdrequest.bean.ChaptersBean;
-
-import framework.base.biz.ApiSubscriber;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
+import com.fei.networdrequest.bean.GanBean;
 import com.fei.networdrequest.moder.user.contrat.ChaptersContract;
 
 import java.util.List;
+
+import framework.base.biz.ApiSubscriber;
 
 /**
  * @author Administrator
@@ -42,6 +38,5 @@ public class ChaptersPresenter extends ChaptersContract.Presenter {
                         view.getReportSuccess(dataBean);
                     }
                 });
-
     }
 }

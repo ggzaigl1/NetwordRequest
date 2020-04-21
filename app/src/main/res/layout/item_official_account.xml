@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:id="@+id/tv_name"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toos="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_margin="5dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:gravity="center"
-    android:paddingBottom="6dp"
-    android:paddingEnd="@dimen/dp_10"
-    android:paddingStart="@dimen/dp_10"
-    android:paddingTop="6dp"
-    android:textColor="@android:color/primary_text_light"/>
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:textColor="@android:color/primary_text_light">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/img_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        toos:text="@string/app_name" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        toos:text="@string/app_name" />
+
+
+</LinearLayout>
 

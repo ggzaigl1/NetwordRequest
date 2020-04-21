@@ -5,10 +5,12 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.fei.networdrequest.R;
+import com.fei.networdrequest.bean.ChaptersBean;
+import com.fei.networdrequest.bean.GanBean;
 
 import java.util.List;
 
-import com.fei.networdrequest.bean.ChaptersBean;
+import framework.base.utlis.ImgLoadUtils;
 
 /**
  * @author 初夏小溪
@@ -24,6 +26,6 @@ public class OfficialAccountAdapter extends BaseQuickAdapter<ChaptersBean, BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, ChaptersBean item) {
-        helper.setText(R.id.tv_name, item.getName());
+        helper.setText(R.id.tv_title, item.getName());
     }
 }
